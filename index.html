@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placar CBM</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial Black', Arial, sans-serif;
+            background-color: #00FF00; /* Verde chroma key */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* CONTAINER PRINCIPAL */
+        .placar-container {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        /* IMAGEM DO TOPO - FIXA */
+        .header-image {
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        .header-image img {
+            width: 100%;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* CONTEÚDO DO PLACAR (SOBREPOSTO) */
+        .placar-content {
+            position: absolute;
+            top: 22%; /* AJUSTE ESSE VALOR PARA SUBIR/BAIXAR O PLACAR */
+            left: 0;
+            width: 100%;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ESTILOS DO PLACAR */
+        .scores-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            width: 90%;
+        }
+        .team {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .team-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFF;
+            text-shadow: 2px 2px 4px #000;
+            min-width: 100px;
+            text-align: center;
+        }
+        .score {
+            font-size: 80px;
+            font-weight: bold;
+            color: #FFF;
+            text-shadow: 2px 2px 4px #000;
+            min-width: 100px;
+            text-align: center;
+        }
+        .divider {
+            font-size: 60px;
+            color: #FFF;
+            text-shadow: 2px 2px 4px #000;
+        }
+        .timer {
+            font-size: 50px;
+            font-weight: bold;
+            color: #FFF;
+            text-shadow: 2px 2px 4px #000;
+            margin: 20px 0;
+            font-family: 'Digital', monospace;
+            letter-spacing: 3px;
+        }
+
+        /* CONTROLES INFERIORES */
+        .controls-container {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0,0,0,0.7);
+            padding: 15px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            z-index: 3;
+        }
+        .team-names-input {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .team-names-input input {
+            padding: 8px;
+            font-size: 14px;
+            width: 150px;
+            text-align: center;
+            border: 2px solid #000;
+            border-radius: 5px;
+            background-color: rgba(255,255,255,0.8);
+            color: #000;
+        }
+        .score-controls, .timer-controls, .time-adjust-controls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 5px 0;
+        }
+        button {
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #000;
+            color: #FFF;
+            border: none;
+            border-radius: 5px;
+            min-width: 70px;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="placar-container">
+        <!-- IMAGEM FIXA NO TOPO -->
+        <div class="header-image">
+            <img src="placarCBM.png" alt="Placar CBM">
+        </div>
+        
+        <!-- PLACAR SOBREPOSTO -->
+        <div class="placar-content">
+            <div class="scores-container">
+                <div class="team">
+                    <div class="team-name" id="team1-name">TIME 1</div>
+                    <div class="score" id="teamA">0</div>
+                </div>
+                <div class="divider">-</div>
+                <div class="team">
+                    <div class="score" id="teamB">0</div>
+                    <div class="team-name" id="team2-name">TIME 2</div>
+                </div>
+            </div>
+            <div class="timer" id="timer">10:00</div>
+        </div>
+    </div>
+
+    <!-- CONTROLES -->
+    <div class="controls-container">
+        <div class="team-names-input">
+            <input type="text" id="team1-input" placeholder="Nome Time 1" onchange="updateTeamName(1, this.value)">
+            <input type="text" id="team2-input" placeholder="Nome Time 2" onchange="updateTeamName(2, this.value)">
+        </div>
+
+        <div class="score-controls">
+            <button onclick="updateScore('teamA', -1)">-1 A</button>
+            <button onclick="updateScore('teamA', 1)">+1 A</button>
+            <button onclick="resetScores()">Zerar</button>
+            <button onclick="updateScore('teamB', -1)">-1 B</button>
+            <button onclick="updateScore('teamB', 1)">+1 B</button>
+        </div>
+        
+        <div class="timer-controls">
+            <button onclick="startTimer()" id="playButton">Play</button>
+            <button onclick="pauseTimer()" id="pauseButton">Pause</button>
+            <button onclick="resetTimer()">Reset</button>
+        </div>
+
+        <div class="time-adjust-controls">
+            <button onclick="adjustTime(1, 0)">+1 min</button>
+            <button onclick="adjustTime(-1, 0)">-1 min</button>
+            <button onclick="adjustTime(0, 10)">+10 seg</button>
+            <button onclick="adjustTime(0, -10)">-10 seg</button>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis do cronômetro
+        let minutes = 10;
+        let seconds = 0;
+        let timerInterval;
+        let isRunning = false;
+
+        // Inicia o cronômetro
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                document.getElementById('playButton').textContent = 'Play (ON)';
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+        }
+
+        // Pausa o cronômetro
+        function pauseTimer() {
+            if (isRunning) {
+                isRunning = false;
+                document.getElementById('playButton').textContent = 'Play';
+                clearInterval(timerInterval);
+            }
+        }
+
+        // Atualiza o cronômetro
+        function updateTimer() {
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    document.getElementById('playButton').textContent = 'Play';
+                    return;
+                }
+                minutes--;
+                seconds = 59;
+            } else {
+                seconds--;
+            }
+            updateTimerDisplay();
+        }
+
+        // Atualiza o display do cronômetro
+        function updateTimerDisplay() {
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Reinicia o cronômetro
+        function resetTimer() {
+            pauseTimer();
+            minutes = 10;
+            seconds = 0;
+            updateTimerDisplay();
+        }
+
+        // Ajusta o tempo
+        function adjustTime(minChange, secChange) {
+            pauseTimer();
+            minutes = Math.max(0, minutes + minChange);
+            let newSeconds = seconds + secChange;
+            if (newSeconds >= 60) {
+                minutes += Math.floor(newSeconds / 60);
+                seconds = newSeconds % 60;
+            } else if (newSeconds < 0) {
+                if (minutes > 0) {
+                    minutes -= 1;
+                    seconds = 60 + newSeconds;
+                } else {
+                    seconds = 0;
+                }
+            } else {
+                seconds = newSeconds;
+            }
+            updateTimerDisplay();
+        }
+
+        // Atualiza o placar
+        function updateScore(teamId, change) {
+            const scoreElement = document.getElementById(teamId);
+            let score = parseInt(scoreElement.textContent);
+            score = Math.max(0, score + change);
+            scoreElement.textContent = score;
+        }
+
+        // Zera o placar
+        function resetScores() {
+            document.getElementById('teamA').textContent = '0';
+            document.getElementById('teamB').textContent = '0';
+        }
+
+        // Atualiza nome do time
+        function updateTeamName(teamNumber, name) {
+            document.getElementById(`team${teamNumber}-name`).textContent = name.toUpperCase();
+        }
+    </script>
+</body>
+</html>
