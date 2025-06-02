@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,298 +13,512 @@
         }
 
         * {
-            font-family: 'Branding SF Bold', Arial, sans-serif !important;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #00FF00; /* Verde chroma key */
+            background-color: rgba(58, 247, 0, 0.8);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Branding SF Bold';
+        }
+
+        .container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .scoreboard {
+            width: 100%;
+            margin-bottom: 30px;
+            border-radius: 4px;
             overflow: hidden;
         }
 
-        /* CONTAINER PRINCIPAL */
-        .placar-container {
-            width: 100%;
-            max-width: 800px;
+        .logo-section {
             position: relative;
+            width: 100%;
         }
 
-        /* IMAGEM DO TOPO - FIXA */
-        .header-image {
+        .background-image {
             width: 100%;
-            position: relative;
-            z-index: 1;
-        }
-        .header-image img {
-            width: 100%;
+            height: auto;
             display: block;
-            object-fit: contain;
+            visibility: hidden;
         }
 
-        /* CONTEÚDO DO PLACAR (SOBREPOSTO) */
-        .placar-content {
+        .overlay {
             position: absolute;
-            top: 22%; /* AJUSTE ESSE VALOR PARA SUBIR/BAIXAR O PLACAR */
+            top: 0;
             left: 0;
             width: 100%;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 0.8fr 2fr 1fr 2fr 2fr;
+            background-image: url('placarCBM.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
         }
 
-        /* ESTILOS DO PLACAR */
-        .scores-container {
+        .team, .score, .timer {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 40px;
-            width: 90%;
-        }
-        .team {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .team-name {
-            font-size: 24px;
-            font-weight: bold;
-            color: #FFF;
-            text-shadow: 2px 2px 4px #000;
-            min-width: 100px;
-            text-align: center;
-        }
-        .score {
-            font-size: 80px;
-            font-weight: bold;
-            color: #FFF;
-            text-shadow: 2px 2px 4px #000;
-            min-width: 100px;
-            text-align: center;
-        }
-        .divider {
-            font-size: 60px;
-            color: #FFF;
-            text-shadow: 2px 2px 4px #000;
-        }
-        .timer {
-            font-size: 50px;
-            font-weight: bold;
-            color: #FFF;
-            text-shadow: 2px 2px 4px #000;
-            margin: 20px 0;
-            letter-spacing: 3px;
+            height: 100%;
+            position: relative;
         }
 
-        /* CONTROLES INFERIORES */
-        .controls-container {
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: rgba(0,0,0,0.7);
-            padding: 15px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 800px;
-            margin: 0 auto;
-            z-index: 3;
+        /* Time 1 - Estilo Específico */
+        .team-left {
+            grid-column: 2;
+            align-items: flex-start;
+            padding-top: 4%;
         }
-        .team-names-input {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-        .team-names-input input {
-            padding: 8px;
-            font-size: 14px;
-            width: 150px;
-            text-align: center;
-            border: 2px solid #000;
-            border-radius: 5px;
-            background-color: rgba(255,255,255,0.8);
-            color: #000;
-        }
-        .score-controls, .timer-controls, .time-adjust-controls {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin: 5px 0;
-        }
-        button {
-            padding: 8px 12px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            background-color: #000;
-            color: #FFF;
+
+        #team1 {
+            background: transparent;
             border: none;
-            border-radius: 5px;
-            min-width: 70px;
+            color: white;
+            text-align: center;
+            width: 100%;
+            height: auto;
+            font-size: 4.5vw;
+            padding: 0;
+            font-family: 'Branding SF Bold', sans-serif;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+            margin-top: 187%;
+            margin-left: -2%;
         }
-        button:hover {
-            opacity: 0.8;
+
+        /* Time 2 - Estilo Específico */
+        .team-right {
+            grid-column: 4;
+            align-items: flex-start;
+            padding-top: 4%;
+        }
+
+        #team2 {
+            background: transparent;
+            border: none;
+            color: white;
+            text-align: center;
+            width: 100%;
+            height: auto;
+            font-size: 4.5vw;
+            padding: 0;
+            font-family: 'Branding SF Bold', sans-serif;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+            margin-top: 187%;
+            margin-right: -15%;
+        }
+
+        /* Cronômetro - Estilo Padrão */
+        .timer {
+            grid-column: 5;
+            align-items: flex-start;
+            padding-top: 3%;
+        }
+
+        #timer {
+            background: transparent;
+            border: none;
+            color: black;
+            text-align: center;
+            width: 100%;
+            height: auto;
+            font-size: 4.5vw;
+            padding: 0;
+            font-family: 'Branding SF Bold', sans-serif;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            margin-top: 188%;
+            margin-right: 15%;
+        }
+
+        /* Placar - Estilo Diferente/Isolado */
+        .score {
+            grid-column: 3;
+            align-items: center;
+            padding-top: 0;
+        }
+
+        #score {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            text-align: center;
+            width: 100%;
+            height: auto;
+            font-size: 4.5vw;
+            font-weight: 800;
+            padding: 0;
+            font-family: 'Branding SF Bold', sans-serif;
+            letter-spacing: 1px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+            margin-top: -20%;
+            margin-left: 15%;
+        }
+
+        /* Painel de controle */
+        .controls {
+            background: linear-gradient(145deg, #2a2a2a, #333333);
+            padding: 25px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Painel de controle */
+        .controls {
+            background: linear-gradient(145deg, #2a2a2a, #333333);
+            padding: 25px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .controls h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #ffd700;
+            font-family: 'Branding SF Bold', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+        }
+
+        .control-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px 15px;
+            border-radius: 6px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .control-group label {
+            flex: 1;
+            font-weight: bold;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Branding SF Bold', sans-serif;
+        }
+
+        .control-group input {
+            flex: 2;
+            padding: 10px 12px;
+            border: 1px solid #555;
+            background-color: #222;
+            color: white;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            font-family: 'Branding SF Bold', sans-serif;
+        }
+
+        .control-group input:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+            outline: none;
+        }
+
+        .timer-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            gap: 15px;
+        }
+
+        .timer-buttons button {
+            flex: 1;
+            padding: 12px 15px;
+            background: linear-gradient(145deg, #ffd700, #ffcc00);
+            color: black;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Branding SF Bold', sans-serif;
+        }
+
+        .timer-buttons button:hover {
+            background: linear-gradient(145deg, #ffcc00, #ffb700);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .timer-buttons button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .team input {
+                font-size: 5vw;
+                margin-top: 185%;
+            }
+            
+            .timer input {
+                font-size: 4.5vw;
+                margin-top: 186%;
+            }
+            
+            .score input {
+                font-size: 7vw;
+                margin-top: 175%;
+            }
+            
+            .controls {
+                padding: 20px;
+            }
+            
+            .controls h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .team input {
+                font-size: 6vw;
+                margin-top: 180%;
+            }
+            
+            .timer input {
+                font-size: 5.5vw;
+                margin-top: 181%;
+            }
+            
+            .score input {
+                font-size: 8vw;
+                margin-top: 170%;
+            }
+            
+            .timer-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .timer-buttons button {
+                width: 100%;
+            }
+            
+            .control-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .control-group label {
+                margin-bottom: 5px;
+            }
+            
+            .control-group input {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="placar-container">
-        <!-- IMAGEM FIXA NO TOPO -->
-        <div class="header-image">
-            <img src="placarCBM.png" alt="Placar CBM">
-        </div>
-        
-        <!-- PLACAR SOBREPOSTO -->
-        <div class="placar-content">
-            <div class="scores-container">
-                <div class="team">
-                    <div class="team-name" id="team1-name">TIME 1</div>
-                    <div class="score" id="teamA">0</div>
-                </div>
-                <div class="divider">-</div>
-                <div class="team">
-                    <div class="score" id="teamB">0</div>
-                    <div class="team-name" id="team2-name">TIME 2</div>
+    <div class="container">
+        <div class="scoreboard">
+            <div class="logo-section">
+                <img src="placarCBM.png" alt="Logo" class="background-image">
+                <div class="overlay">
+                    <div class="team team-left">
+                        <input type="text" id="team1" value="SAO" maxlength="3">
+                    </div>
+                    <div class="score">
+                        <input type="text" id="score" value="1-1" maxlength="5">
+                    </div>
+                    <div class="team team-right">
+                        <input type="text" id="team2" value="PAL" maxlength="3">
+                    </div>
+                    <div class="timer">
+                        <input type="text" id="timer" value="10:00" maxlength="5">
+                    </div>
                 </div>
             </div>
-            <div class="timer" id="timer">10:00</div>
-        </div>
-    </div>
-
-    <!-- CONTROLES -->
-    <div class="controls-container">
-        <div class="team-names-input">
-            <input type="text" id="team1-input" placeholder="Nome Time 1" onchange="updateTeamName(1, this.value)">
-            <input type="text" id="team2-input" placeholder="Nome Time 2" onchange="updateTeamName(2, this.value)">
-        </div>
-
-        <div class="score-controls">
-            <button onclick="updateScore('teamA', -1)">-1 A</button>
-            <button onclick="updateScore('teamA', 1)">+1 A</button>
-            <button onclick="resetScores()">Zerar</button>
-            <button onclick="updateScore('teamB', -1)">-1 B</button>
-            <button onclick="updateScore('teamB', 1)">+1 B</button>
         </div>
         
-        <div class="timer-controls">
-            <button onclick="startTimer()" id="playButton">Play</button>
-            <button onclick="pauseTimer()" id="pauseButton">Pause</button>
-            <button onclick="resetTimer()">Reset</button>
-        </div>
-
-        <div class="time-adjust-controls">
-            <button onclick="adjustTime(1, 0)">+1 min</button>
-            <button onclick="adjustTime(-1, 0)">-1 min</button>
-            <button onclick="adjustTime(0, 10)">+10 seg</button>
-            <button onclick="adjustTime(0, -10)">-10 seg</button>
+        <div class="controls">
+            <h2>Controles do Placar</h2>
+            <div class="control-group">
+                <label for="team1-control">Time 1:</label>
+                <input type="text" id="team1-control" value="SAO" maxlength="3">
+            </div>
+            <div class="control-group">
+                <label for="score-control">Placar:</label>
+                <input type="text" id="score-control" value="1-1" maxlength="5">
+            </div>
+            <div class="control-group">
+                <label for="team2-control">Time 2:</label>
+                <input type="text" id="team2-control" value="PAL" maxlength="3">
+            </div>
+            <div class="control-group">
+                <label for="timer-control">Tempo:</label>
+                <input type="text" id="timer-control" value="10:00" maxlength="5">
+            </div>
+            <div class="timer-buttons">
+                <button id="start-timer">Iniciar</button>
+                <button id="pause-timer">Pausar</button>
+                <button id="reset-timer">Zerar</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Variáveis do cronômetro
-        let minutes = 10;
-        let seconds = 0;
-        let timerInterval;
-        let isRunning = false;
-
-        // Inicia o cronômetro
-        function startTimer() {
-            if (!isRunning) {
-                isRunning = true;
-                document.getElementById('playButton').textContent = 'Play (ON)';
-                timerInterval = setInterval(updateTimer, 1000);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do placar
+            const team1Input = document.getElementById('team1');
+            const scoreInput = document.getElementById('score');
+            const team2Input = document.getElementById('team2');
+            const timerInput = document.getElementById('timer');
+            
+            // Elementos de controle
+            const team1Control = document.getElementById('team1-control');
+            const scoreControl = document.getElementById('score-control');
+            const team2Control = document.getElementById('team2-control');
+            const timerControl = document.getElementById('timer-control');
+            
+            // Botões do cronômetro
+            const startTimerBtn = document.getElementById('start-timer');
+            const pauseTimerBtn = document.getElementById('pause-timer');
+            const resetTimerBtn = document.getElementById('reset-timer');
+            
+            // Variáveis para o cronômetro
+            let timerInterval;
+            let seconds = 0;
+            let minutes = 10;
+            let isRunning = false;
+            
+            // Atualizar o display inicial
+            updateTimerDisplay();
+            
+            // Sincronizar controles com o placar
+            team1Control.addEventListener('input', function() {
+                team1Input.value = this.value.toUpperCase();
+            });
+            
+            scoreControl.addEventListener('input', function() {
+                scoreInput.value = this.value;
+            });
+            
+            team2Control.addEventListener('input', function() {
+                team2Input.value = this.value.toUpperCase();
+            });
+            
+            timerControl.addEventListener('input', function() {
+                timerInput.value = this.value;
+                
+                const timeMatch = this.value.match(/^(\d{1,2}):(\d{1,2})$/);
+                if (timeMatch) {
+                    minutes = parseInt(timeMatch[1]);
+                    seconds = parseInt(timeMatch[2]);
+                }
+            });
+            
+            // Sincronizar placar com os controles
+            team1Input.addEventListener('input', function() {
+                team1Control.value = this.value;
+            });
+            
+            scoreInput.addEventListener('input', function() {
+                scoreControl.value = this.value;
+            });
+            
+            team2Input.addEventListener('input', function() {
+                team2Control.value = this.value;
+            });
+            
+            timerInput.addEventListener('input', function() {
+                timerControl.value = this.value;
+            });
+            
+            // Funções do cronômetro
+            function updateTimerDisplay() {
+                const formattedMinutes = minutes.toString().padStart(2, '0');
+                const formattedSeconds = seconds.toString().padStart(2, '0');
+                timerInput.value = `${formattedMinutes}:${formattedSeconds}`;
+                timerControl.value = `${formattedMinutes}:${formattedSeconds}`;
             }
-        }
-
-        // Pausa o cronômetro
-        function pauseTimer() {
-            if (isRunning) {
+            
+            function startTimer() {
+                if (!isRunning) {
+                    isRunning = true;
+                    timerInterval = setInterval(function() {
+                        if (seconds === 0 && minutes === 0) {
+                            pauseTimer();
+                            return;
+                        }
+                        
+                        if (seconds === 0) {
+                            minutes--;
+                            seconds = 59;
+                        } else {
+                            seconds--;
+                        }
+                        updateTimerDisplay();
+                    }, 1000);
+                }
+            }
+            
+            function pauseTimer() {
                 isRunning = false;
-                document.getElementById('playButton').textContent = 'Play';
                 clearInterval(timerInterval);
             }
-        }
-
-        // Atualiza o cronômetro
-        function updateTimer() {
-            if (seconds === 0) {
-                if (minutes === 0) {
-                    clearInterval(timerInterval);
-                    isRunning = false;
-                    document.getElementById('playButton').textContent = 'Play';
-                    return;
-                }
-                minutes--;
-                seconds = 59;
-            } else {
-                seconds--;
+            
+            function resetTimer() {
+                pauseTimer();
+                minutes = 10;
+                seconds = 0;
+                updateTimerDisplay();
             }
-            updateTimerDisplay();
-        }
-
-        // Atualiza o display do cronômetro
-        function updateTimerDisplay() {
-            document.getElementById('timer').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        // Reinicia o cronômetro
-        function resetTimer() {
-            pauseTimer();
-            minutes = 10;
-            seconds = 0;
-            updateTimerDisplay();
-        }
-
-        // Ajusta o tempo
-        function adjustTime(minChange, secChange) {
-            pauseTimer();
-            minutes = Math.max(0, minutes + minChange);
-            let newSeconds = seconds + secChange;
-            if (newSeconds >= 60) {
-                minutes += Math.floor(newSeconds / 60);
-                seconds = newSeconds % 60;
-            } else if (newSeconds < 0) {
-                if (minutes > 0) {
-                    minutes -= 1;
-                    seconds = 60 + newSeconds;
-                } else {
-                    seconds = 0;
-                }
-            } else {
-                seconds = newSeconds;
-            }
-            updateTimerDisplay();
-        }
-
-        // Atualiza o placar
-        function updateScore(teamId, change) {
-            const scoreElement = document.getElementById(teamId);
-            let score = parseInt(scoreElement.textContent);
-            score = Math.max(0, score + change);
-            scoreElement.textContent = score;
-        }
-
-        // Zera o placar
-        function resetScores() {
-            document.getElementById('teamA').textContent = '0';
-            document.getElementById('teamB').textContent = '0';
-        }
-
-        // Atualiza nome do time
-        function updateTeamName(teamNumber, name) {
-            document.getElementById(`team${teamNumber}-name`).textContent = name.toUpperCase();
-        }
+            
+            // Eventos dos botões do cronômetro
+            startTimerBtn.addEventListener('click', startTimer);
+            pauseTimerBtn.addEventListener('click', pauseTimer);
+            resetTimerBtn.addEventListener('click', resetTimer);
+            
+            // Impedir que os inputs do placar percam o foco ao clicar neles
+            const allInputs = document.querySelectorAll('.overlay input');
+            allInputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.select();
+                });
+                
+                input.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.select();
+                });
+            });
+        });
     </script>
 </body>
 </html>
